@@ -1,5 +1,5 @@
 body {
-  background-image: url('/assets/rain.jpeg');
+  // background-image: url('http://localhost:1800/noaa-ZVhm6rEKEX8-unsplash.jpg');
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -57,11 +57,11 @@ body {
             color: rgb(197, 197, 197);
             font-size: 1rem;
             display: flex;
-            flex-direction: row;
+            // flex-direction: row;
             justify-content: space-between;
             flex-wrap: wrap;
-            span {
-              margin-left: 1vw;
+            .day {
+              margin-right: 1vw;
             }
           }
         }
@@ -72,7 +72,7 @@ body {
         flex-direction: column;
         align-items: center;
         img {
-          width: 3vw;
+          width: 6vw;
           //   height: 19vh;
         }
         span {
@@ -85,9 +85,98 @@ body {
     height: 100vh;
     flex: 30%;
     color: white;
+    backdrop-filter: blur(20px);
     .panel {
-      height: 100%;
-      backdrop-filter: blur(10px);
+      // min-width: 3vh;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      .search {
+        width: 100%;
+        // height: 100%;
+        display: flex;
+        justify-content: space-between;
+        .form {
+          font-family: inherit;
+          width: 70%;
+          border: 0;
+          outline: 0;
+          font-size: 1.5rem;
+          color: rgb(164, 164, 164);
+          // padding: 5px 0;
+          background: transparent;
+          transition: border-color 0.2s;
+        }
+        button {
+          border: none;
+          margin: 0;
+          padding: 0;
+          .search1 {
+            justify-content: center;
+            padding: 3vh;
+            display: flex;
+            align-items: center;
+          }
+        }
+      }
+      .recent {
+        // margin-top: 3vh;
+        // list-style: none;
+        color: rgb(164, 164, 164);
+        // width: 70%;
+        font-size: 1.4rem;
+        display: flex;
+        font-weight: 400;
+        margin-top: 3vh;
+        margin-bottom: 3vh;
+        .list {
+          display: flex;
+          flex-direction: column;
+          margin: 0;
+          span {
+            margin-left: 3vh;
+            margin-top: 2.5vh;
+          }
+        }
+      }
+      hr {
+        width: 80%;
+        margin-bottom: 5.5vh;
+      }
+      .details {
+        display: flex;
+        margin-left: 3vh;
+        margin-right: 3vh;
+        flex-direction: column;
+        .detail_heading {
+          font-size: 1.4rem;
+          color: rgb(231, 230, 230);
+          margin-bottom: 7vh;
+        }
+        .info {
+          display: flex;
+          flex-direction: column;
+          .cloud,
+          .humid,
+          .wind,
+          .rain,
+          .desc {
+            justify-content: space-between;
+            display: flex;
+            font-size: 1.3rem;
+            margin-bottom: 3vh;
+            .num {
+              color: white;
+            }
+          }
+        }
+      }
     }
   }
+}
+.load {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
 }
