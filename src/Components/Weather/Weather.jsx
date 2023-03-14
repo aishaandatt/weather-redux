@@ -9,9 +9,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { FetchData } from '../../store/weather-actions'
 const Weather = () => {
     const [images, setImages] = useState('');
-    // const [query, setQuery] = useState('Jammu');
     const [getCity, setGetCity] = useState('');
-    const [flag, setFlag] = useState(true);
+    const [searchText, setSearchText] = useState('')
+    const [recentSearches, setRecentSearches] = useState([])
     const [city, setCity] = useState('London');
     const data = useSelector((state) => state.weather.data)
     console.log(data)
@@ -23,9 +23,12 @@ const Weather = () => {
     const success = useSelector((state) => state.weather.success)
     console.log(`loading : ${loading} error : ${error} success : ${success}`)
     const [src, setSrc] = useState('https://images.pexels.com/photos/460672/pexels-photo-460672.jpeg')
-
+    const today = new Date();
+    const day = today.toLocaleDateString('en-US', { weekday: 'long' });
+    const date = today.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
     const inputHandler = (event) => {
         setGetCity(event.target.value);
+        setSearchText(event.target.value)
     };
     const test = () => {
         return
@@ -53,7 +56,15 @@ const Weather = () => {
         }
     }, [dispatch, city])
 
-    const handleSearch = () => {
+    const handleSearch = (event) => {
+        if (searchText.trim() !== '') {
+            const updatedRecentSearches = [...recentSearches, searchText]
+                .filter((value, index, self) => self.indexOf(value) === index)
+                .slice(-4)
+            setRecentSearches(updatedRecentSearches)
+            setSearchText('')
+            localStorage.setItem('recentSearches', JSON.stringify(updatedRecentSearches))
+        }
         axios.get(apiUrl, {
             headers: {
                 Authorization: apiKey,
@@ -79,6 +90,7 @@ const Weather = () => {
     useEffect(() => {
         handleSearch()
         console.log(images)
+        const recentSearchesFromLocalStorage = JSON.parse(localStorage.getItem('recentSearches') || '[]')
     }, [city, images])
     useEffect(() => {
         document.body.style.backgroundImage = `url(${src})`;
@@ -101,8 +113,8 @@ const Weather = () => {
                                 <span className='cityname'>
                                     {data.name}
                                     <div className='date'>
-                                        <span className='day'>Sunday</span>
-                                        <span>6 Oct 19</span>
+                                        <span className='day'>{day}</span>
+                                        <span>{date}</span>
                                     </div>
                                 </span>
                             </div>
@@ -142,9 +154,12 @@ const Weather = () => {
                             >
                                 <div></div>
                                 <div className='list'>
-                                    {Search.map((e) => {
-                                        return <span key={e}>{e}</span>
+                                    {recentSearches.map((e, i) => {
+                                        return <span key={i}>{e}</span>
                                     })}
+                                    {/* {recentSearches.map((search, index) => (
+                                        <span key={index}>{search}</span>
+                                    ))} */}
                                 </div>
                             </div>
                             <hr style={{ border: `1px solid ${color}` }}></hr>
